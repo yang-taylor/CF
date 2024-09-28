@@ -1,15 +1,14 @@
 'use client'
 
-import Link from "next/link";
-import useSWR from 'swr'
+import useSWR from 'swr';
 
 export default function EventPage( {params} ) {
-  const fetcher = (url) => fetch(url).then((res) => res.json())
+  const fetcher = (url) => fetch(url).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR(
     'http://localhost:3333/api/events/' + params.event_id,
     fetcher
-  )
+  );
 
   if (error) return <p>Failed to load.</p>
   if (isLoading) return <p>Loading...</p>
@@ -21,11 +20,11 @@ export default function EventPage( {params} ) {
     month: "long",
     day: "numeric",
     year: "numeric"
-  }
+  };
   const time_options = {
     hour: "2-digit",
     minute: "2-digit"
-  }
+  };
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-fira-code)]">
@@ -46,32 +45,10 @@ export default function EventPage( {params} ) {
                     </li>
                 </>
             }
-            <li>{data.location}, Room(s): {data.room}</li>
+            <li>{data.location}</li>
+            <li>Room(s): {data.room}</li>
         </ul>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"
-          rel="noopener noreferrer"
-        >
-          Home
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/about"
-          rel="noopener noreferrer"
-        >
-          About
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/about"
-          rel="noopener noreferrer"
-        >
-          About
-        </a>
-      </footer>
     </div>
   );
 }

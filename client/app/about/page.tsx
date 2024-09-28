@@ -6,22 +6,6 @@ export default function AboutPage() {
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1>About</h1>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"
-          rel="noopener noreferrer"
-        >
-          Home
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/tos"
-          rel="noopener noreferrer"
-        >
-          Privacy & Terms of Use
-        </a>
-      </footer>
     </div>
   );
 }

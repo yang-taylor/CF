@@ -36,20 +36,21 @@ All events will have an RSVP for students.
 If an event has capped attendance, then the options for RSVP are "yes," "no," and "waitlist."
 If an event does not have capped attendance, then the options for RSVP are "yes," "no," and "maybe."
 4. Upon selecting an event, reps can view how many students have RSVP'd "yes," "waitlist," and "maybe" to the event.
-5. Upon selecting an event, a student can RSVP to the event (yes, no, maybe).
-- After RSVP-ing, they can export the event to calendar if they selected "yes" or "maybe."
+5. Upon selecting an event, a student can RSVP to the event (yes, no, waitlist, maybe).
+    - After RSVP-ing, they can export the event to calendar if they selected "yes" or "maybe."
 Modifications on the RSVP is allowed.
 6. Upon selecting an event, a student can mark themselves as "present" using a passcode, if it is between thirty minutes before and after it happens.
 
 ### Profile
-1. A rep can perform the following actions on their profile: view past company events, view upcoming company events, delete their data.
-2. A student can perform the following actions on their profile: view past attended events (marked as present), view their RSVP'd future events, send an anonymous email to admin.
+7. A rep can perform the following actions on their profile: view past company events, view upcoming company events, delete their data.
+8. A student can perform the following actions on their profile: view past attended events (marked as present), view their RSVP'd future events, send an anonymous email to admin.
 
 ### Admin
-1. Admins can view their personal events and profile, the same that regular students can.
-2. Admin can create, edit, archive, and delete events.
-3. Admin can manually edit attendance.
-4. Admin can send out reminder emails and post-event surveys to attendees.
+9. Admins can view their personal events and profile, the same that regular students can.
+10. Admin can create, edit, archive, and delete events.
+11. Admin can change the attendance passcode.
+12. Admin can manually edit attendance.
+13. Admin can send out reminder emails and post-event surveys to attendees.
 
 ## Non-functional requirements
 1. Performance
@@ -64,7 +65,7 @@ Modifications on the RSVP is allowed.
 2. Front end implemented with NextJS/React (TypeScript).
 3. Database is in PostgreSQL.
 4. CI/CD process implemented with Jenkins.
-5. Deployment will invole Docker.
+5. Deployment will involve Docker.
 
 ## Appendix: Abbrevations and Glossary
 - rep = Company representative

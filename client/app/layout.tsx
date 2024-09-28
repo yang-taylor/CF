@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { Fira_Code } from "next/font/google";
 import "./globals.css";
 
@@ -24,6 +23,29 @@ export default function RootLayout({
 //<!--        className={`${firaCode.variable} ${firaCode.variable} antialiased`} -->
       >
         {children}
+      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-fira-code)]">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="/"
+          rel="noopener noreferrer"
+        >
+          Home
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="/about"
+          rel="noopener noreferrer"
+        >
+          About
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="/tos"
+          rel="noopener noreferrer"
+        >
+          Privacy & Terms of Use
+        </a>
+      </footer>
       </body>
     </html>
   );

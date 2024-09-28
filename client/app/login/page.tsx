@@ -1,18 +1,25 @@
 'use client'
 
 import { FormEvent } from 'react';
-import { usePathname } from 'next/navigation';
-
-import Link from "next/link";
+import { useState } from "react";
+// import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 
 export default function LoginPage() {
-  const router = usePathname();
+  // const pathname = usePathname();
+  // const params = useSearchParams();
+  // const router = useRouter()
+
+  const [verificationSent, setVerificationSent] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault()
+    event.preventDefault();
     
-    const formData = new FormData(event.currentTarget)
-    const email = formData.get('email')
+    // const formData = new FormData(event.currentTarget);
+    // const email = formData.get('email');
+    // const user_type = localStorage.getItem('user_type');
+
+    setVerificationSent(true);
+    console.log(verificationSent);
 
     // if (email != null && email.valueOf.toString.endsWith('@ncsu.edu')) {
 
@@ -33,35 +40,49 @@ export default function LoginPage() {
               className="flex flex-col items-center justify-center"
             >
                 <div className="py-4">
-                    <label for="email"
-                      className="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-                    >
-                        School Email Address
-                    </label>
+                    { (localStorage.getItem('user_type') == 'student') ?
+                        <label htmlFor="email"
+                          className="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+                        >
+                            School Email Address
+                        </label>
+                    :
+                        <label htmlFor="email"
+                          className="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+                        >
+                            Email Address
+                        </label>
+                    }
                     <input type="email" name="email" required
                       placeholder="example@ncsu.edu"
                       className="rounded-full border border-solid text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
                     />
                 </div>
+                <div className="py-4">
+                { verificationSent ?
+                  <>
+                    <label htmlFor="verification_code"
+                      className="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+                    >
+                        Verification Code (Check Email)
+                    </label>
+                    <input type="verification_code" name="verification_code" required
+                      className="rounded-full border border-solid text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+                    />
+                  </>
+                :
+                  <></>
+                }
+                </div>
                 <button
                     type="submit"
                     className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
                 >
-                    Login
+                    Enter
                 </button>
             </form>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Home →
-        </a>
-      </footer>
     </div>
   );
 }

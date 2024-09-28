@@ -212,8 +212,9 @@ func main() {
 	http.HandleFunc("/", getRoot)
 	http.HandleFunc("/hello", getHello)
 
-	http.HandleFunc("/api/events", getEventIds)
-	http.HandleFunc("/api/events/all", getEvents)
+	//	http.HandleFunc("/api/ids/event", getEventIds)
+
+	http.HandleFunc("/api/events", getEvents)
 	http.HandleFunc("/api/events/{id}", getEventById)
 
 	http.HandleFunc("/api/students", getStudents)

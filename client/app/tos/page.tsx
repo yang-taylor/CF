@@ -7,22 +7,6 @@ export default function TosPage() {
         <h1>Terms of Service</h1>
         <h1>Privacy Policy</h1>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"
-          rel="noopener noreferrer"
-        >
-          Home
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/about"
-          rel="noopener noreferrer"
-        >
-          About
-        </a>
-      </footer>
     </div>
   );
 }

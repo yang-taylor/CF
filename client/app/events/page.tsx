@@ -1,15 +1,15 @@
 'use client'
 
 import Link from "next/link";
-import useSWR from 'swr'
+import useSWR from 'swr';
  
-export default function CompanyEventPage() {
-  const fetcher = (url) => fetch(url).then((res) => res.json())
+export default function EventListPage() {
+  const fetcher = (url) => fetch(url).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR(
-    'http://localhost:3333/api/events/all?has_companies=true',
+    'http://localhost:3333/api/events',
     fetcher
-  )
+  );
 
   if (error) return <p>Failed to load.</p>
   if (isLoading) return <p>Loading...</p>
@@ -25,7 +25,7 @@ export default function CompanyEventPage() {
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-fira-code)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <h1>Select your event.</h1>
-        { data.map((item) => {
+        { data.map((item: object) => {
             return(
               <Link
                 key="{item.event_id}"
@@ -37,29 +37,6 @@ export default function CompanyEventPage() {
             )
         })}
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/"
-          rel="noopener noreferrer"
-        >
-          Home
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/about"
-          rel="noopener noreferrer"
-        >
-          About
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="/about"
-          rel="noopener noreferrer"
-        >
-          About
-        </a>
-      </footer>
     </div>
   );
 }

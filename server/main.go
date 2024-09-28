@@ -10,11 +10,22 @@ import (
 	"os"
 	"regexp"
 	"slices"
+	"time"
 )
 
 /**							**/
 /** DATA TYPE DEFINITIONS   **/
 /**							**/
+type event struct {
+	Event_ID      string    `json:"event_id"`
+	Title         string    `json:"title"`
+	Start_Date    time.Time `json:"start_date"`
+	End_Date      time.Time `json:"end_date"`
+	Location      string    `json:"location"`
+	Room          string    `json:"room"`
+	Has_Companies bool      `json:"has_companies"`
+}
+
 type employee struct {
 	Email      string `json:"email"`
 	First_Name string `json:"first_name"`
@@ -48,6 +59,18 @@ type student struct {
 /**							**/
 /** DUMMY DATA              **/
 /**							**/
+var events = []event{
+	{
+		Event_ID:      "testing-testing-testing",
+		Title:         "Mini-Career Fair",
+		Start_Date:    time.Date(2024, time.November, 1, 12, 00, 0, 0, time.Local),
+		End_Date:      time.Date(2024, time.November, 1, 14, 30, 0, 0, time.Local),
+		Location:      "Engineering Building 2 (890 Oval Dr, Raleigh, NC 27606)",
+		Room:          "3001, 3002",
+		Has_Companies: true,
+	},
+}
+
 var companies = []string{
 	"SAS", "Parker Lord",
 }
@@ -74,6 +97,46 @@ func getHello(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "Hello, HTTP!\n")
 }
 
+func getEvents(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Credentials", "true")
+
+	events_json, _ := json.Marshal(events)
+	fmt.Fprint(w, string(events_json))
+}
+
+func getEventIds(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Credentials", "true")
+
+	id_list := make([]string, len(events), 0)
+	for i := 0; i < len(events); i++ {
+		id_list = append(id_list, events[i].Event_ID)
+	}
+
+	id_json, _ := json.Marshal(id_list)
+	fmt.Fprint(w, string(id_json))
+}
+
+func getEventById(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Credentials", "true")
+
+	full_url_path := r.URL.Path
+	url_regex, _ := regexp.Compile("/api/events/")
+	id := url_regex.ReplaceAllString(full_url_path, "")
+
+	idx := slices.IndexFunc(events, func(ev event) bool { return ev.Event_ID == id })
+
+	if idx == -1 {
+		http.Error(w, "Event not found", 404)
+	} else {
+		// Return data
+		event_json, _ := json.Marshal(events[idx])
+		fmt.Fprintf(w, string(event_json))
+	}
+}
+
 func getCompanies(w http.ResponseWriter, r *http.Request) {
 	companies_json, _ := json.Marshal(companies)
 	fmt.Fprintf(w, string(companies_json))
@@ -95,7 +158,7 @@ func getEmployeesByEmail(w http.ResponseWriter, r *http.Request) {
 	full_url_path := r.URL.Path
 
 	// Removing "/employees" part of URL
-	url_regex, _ := regexp.Compile("/employees/")
+	url_regex, _ := regexp.Compile("/api/employees/")
 	id := url_regex.ReplaceAllString(full_url_path, "")
 
 	// Retrieve full email address
@@ -124,7 +187,7 @@ func getStudentsByUnityID(w http.ResponseWriter, r *http.Request) {
 	full_url_path := r.URL.Path
 
 	// Removing "/students" part of URL
-	url_regex, _ := regexp.Compile("/students/")
+	url_regex, _ := regexp.Compile("/api/students/")
 	id := url_regex.ReplaceAllString(full_url_path, "")
 
 	// Convert unity ID to full email address
@@ -149,14 +212,18 @@ func main() {
 	http.HandleFunc("/", getRoot)
 	http.HandleFunc("/hello", getHello)
 
-	http.HandleFunc("/students", getStudents)
-	http.HandleFunc("/students/{id}", getStudentsByUnityID)
+	http.HandleFunc("/api/events", getEventIds)
+	http.HandleFunc("/api/events/all", getEvents)
+	http.HandleFunc("/api/events/{id}", getEventById)
 
-	http.HandleFunc("/employees", getEmployees)
-	http.HandleFunc("/employees/{email}", getEmployeesByEmail)
+	http.HandleFunc("/api/students", getStudents)
+	http.HandleFunc("/api/students/{id}", getStudentsByUnityID)
 
-	http.HandleFunc("/companies", getCompanies)
-	http.HandleFunc("/companies/{company}/employees", getEmployeesByCompany)
+	http.HandleFunc("/api/employees", getEmployees)
+	http.HandleFunc("/api/employees/{email}", getEmployeesByEmail)
+
+	http.HandleFunc("/api/companies", getCompanies)
+	http.HandleFunc("/api/companies/{company}/employees", getEmployeesByCompany)
 
 	err := http.ListenAndServe(":3333", nil)
 
